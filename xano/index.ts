@@ -1,68 +1,46 @@
 import { workspace } from "@xanots/sdk";
 
+import { users } from "./tables/users.js";
+import { applicants } from "./tables/applicants.js";
+import { applications } from "./tables/applications.js";
+import { rule_sets } from "./tables/rule_sets.js";
+import { decisions } from "./tables/decisions.js";
+import { decision_log } from "./tables/decision_log.js";
+
+import { credit } from "./api/credit.js";
+
+import { evaluateApplication } from "./functions/evaluate-application.js";
+
+import { loginQuery } from "./api/auth-login.js";
+import { listApplicationsQuery } from "./api/applications-list.js";
+import { submitApplicationQuery } from "./api/applications-submit.js";
+import { runDecisionQuery } from "./api/decisions-run.js";
+import { getDecisionQuery } from "./api/decisions-get.js";
+import { auditQuery } from "./api/audit.js";
+import { ruleSetsQuery } from "./api/rule-sets.js";
+import { seedQuery } from "./api/seed.js";
+
 /**
- * The credit-decisioning-rules-engine backend.
+ * The Credit Decisioning Rules Engine backend.
  *
- * A workspace is assembled by registering typed objects onto a workspace()
- * instance and default-exporting it. This starter is intentionally empty and
- * already compiles + deploys — add your first table and endpoint below.
- *
- * ── Add your first table + endpoint ─────────────────────────────────────────
- *
- *   import { workspace, table, apiGroup, query, f, input, s, ref, c, expect, resp } from "@xanots/sdk";
- *
- *   const notes = table({
- *     name: "notes",
- *     // `id` (int PK) + `created_at` (epochms) are auto-injected.
- *     schema: {
- *       body: f.text({ required: true }),
- *     },
- *   });
- *
- *   const api = apiGroup({ name: "notes", canonical: "notes" }); // pin the slug
- *
- *   const createNote = query({
- *     name: "create_note",
- *     verb: "POST",
- *     apiGroup: api,
- *     input: { body: input.text({ required: true }) },
- *     // ...build the stack with the s.* statement helpers...
- *     // Assertions ride along with the object they cover; `npm run xano:test`
- *     // runs them against whatever you last deployed.
- *     tests: [
- *       {
- *         name: "creates a note",
- *         input: { body: c.text("hello") },
- *         expect: [expect.to_be_defined(resp())],
- *       },
- *     ],
- *   });
- *
- *   export default workspace("credit-decisioning-rules-engine")
- *     .registerTables([notes])
- *     .registerApiGroups([api])
- *     .registerQueries([createNote]);
- *
- * Discover the exact builders and options from the package's own types and its
- * shipped docs — read `node_modules/@xanots/sdk/llms.txt` first (it ends with a
- * map of the `llms/*.md` topic files), then the .d.ts files.
- * See `xano/EXAMPLE.md` for the full walkthrough.
- *
- * ── Optional add-ons ─────────────────────────────────────────────────────────
- * Nothing below is installed. Reach for an add-on when you need it, not before.
- *
- * @xanots/auth registers turnkey auth (user/login/signup) onto this same
- * workspace. Install it first (`xanots marketplace install @xanots/auth`), then
- * `registerAuth(workspace("credit-decisioning-rules-engine"), { canonical: "authn" })` returns the
- * instance to chain your own .register*() calls onto:
- *
- *   registerAuth(workspace("credit-decisioning-rules-engine"), { canonical: "authn" })
- *     .registerTables([notes])
- *     .registerApiGroups([api])
- *     .registerQueries([createNote]);
- *
- * That is not the whole catalogue. `xanots marketplace list` prints every
- * published add-on and `xanots marketplace details <package>` prints what one
- * installs plus the registration to paste here — no login required.
+ * One governed loan-decision service. The credit waterfall lives in a single
+ * function (evaluate_application) that both the API and the seed path call, so
+ * every consumer runs identical rules. Each decision is pinned to the policy
+ * version that produced it, and an append-only log records what happened under
+ * which version. Access is API-layer RBAC (underwriter vs read-only reviewer),
+ * never row-level security.
  */
-export default workspace("credit-decisioning-rules-engine");
+export default workspace("credit-decisioning-rules-engine")
+  .registerTables([users, applicants, applications, rule_sets, decisions, decision_log])
+  .registerApiGroups([credit])
+  .registerFunctions([evaluateApplication])
+  .registerQueries([
+    loginQuery,
+    listApplicationsQuery,
+    submitApplicationQuery,
+    runDecisionQuery,
+    getDecisionQuery,
+    auditQuery,
+    ruleSetsQuery,
+    seedQuery,
+  ]);

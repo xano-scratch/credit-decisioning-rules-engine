@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credit Decisioning Rules Engine — a governed XanoTS backend</title>
+    <meta
+      name="description"
+      content="One governed loan-decision service. Versioned credit rules in a single auditable API layer, built with XanoTS."
+    />
+    <style>
+      :root {
+        --bg: oklch(0.145 0 0);
+        --fg: oklch(0.985 0 0);
+        --muted: oklch(0.708 0 0);
+        --card: oklch(0.205 0 0);
+        --border: oklch(1 0 0 / 12%);
+        --primary: oklch(0.922 0 0);
+        --primary-fg: oklch(0.205 0 0);
+        --accent: oklch(0.7 0.14 250);
+        --danger: oklch(0.704 0.191 22.216);
+        --radius: 12px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+      .hero { padding: 72px 0 40px; }
+      .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+      .badge {
+        font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+        padding: 5px 11px; border-radius: 999px;
+        border: 1px solid var(--border); color: var(--muted);
+      }
+      .badge.play { color: var(--fg); border-color: oklch(1 0 0 / 30%); }
+      h1 { font-size: 44px; line-height: 1.1; margin: 0 0 14px; letter-spacing: -0.02em; }
+      .tagline { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 18px; }
+      .meta { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; margin-bottom: 26px; }
+      .meta strong { color: var(--fg); font-weight: 700; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: 15px; font-weight: 600; text-decoration: none;
+        padding: 11px 20px; border-radius: 10px; border: 1px solid transparent;
+        transition: opacity 0.15s, background 0.15s;
+      }
+      .btn.primary { background: var(--primary); color: var(--primary-fg); }
+      .btn.primary:hover { opacity: 0.88; }
+      .btn.ghost { border-color: var(--border); color: var(--fg); }
+      .btn.ghost:hover { background: var(--card); }
+      .shot { margin: 8px 0 8px; }
+      .shot img {
+        width: 100%; height: auto; border-radius: var(--radius);
+        border: 1px solid var(--border); display: block;
+      }
+      .shot figcaption { color: var(--muted); font-size: 13px; margin-top: 10px; text-align: center; }
+      section { padding: 40px 0; border-top: 1px solid var(--border); }
+      h2 { font-size: 26px; margin: 0 0 20px; letter-spacing: -0.01em; }
+      .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .card {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: var(--radius); padding: 20px;
+      }
+      .card h3 { margin: 0 0 8px; font-size: 16px; }
+      .card p { margin: 0; color: var(--muted); font-size: 14px; }
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+      th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+      td code { background: var(--card); padding: 2px 7px; border-radius: 6px; font-size: 13px; }
+      .verb { font-weight: 700; }
+      ul.screens { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      ul.screens li { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; font-size: 14px; }
+      ul.screens strong { display: block; margin-bottom: 4px; font-size: 15px; }
+      ul.screens span { color: var(--muted); }
+      pre {
+        background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+        padding: 18px; overflow-x: auto; font-size: 13.5px; line-height: 1.55;
+        font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      }
+      .note { color: var(--muted); font-size: 14px; }
+      footer { padding: 40px 0 64px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+      @media (max-width: 640px) { h1 { font-size: 34px; } .hero { padding: 48px 0 28px; } }
+    </style>
+  </head>
+  <body>
+    <header class="wrap hero">
+      <div class="badges">
+        <span class="badge play">Play 1 · Business Logic Centralization</span>
+        <span class="badge">Banking &amp; financial services</span>
+        <span class="badge">XanoTS</span>
+      </div>
+      <h1>Credit Decisioning Rules Engine</h1>
+      <p class="tagline">
+        One governed loan-decision service every system calls, so credit rules live in a single
+        versioned, auditable API layer instead of being copied into each app.
+      </p>
+      <p class="meta"><strong>6</strong> tables · <strong>8</strong> APIs · <strong>1</strong> shared function</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://github.com/xano-scratch/credit-decisioning-rules-engine">View on GitHub</a>
+        <a class="btn ghost" href="#use">Use this template</a>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <figure class="shot">
+        <img src="screenshot.png" alt="The Decision screen showing a governed outcome, the exact rule that fired, and the policy version it was pinned to." />
+        <figcaption>The Decision screen: the governed outcome, the exact rule that fired, and the policy version it was pinned to.</figcaption>
+      </figure>
+    </div>
+
+    <section class="wrap" id="what">
+      <h2>What it demonstrates</h2>
+      <p class="note" style="margin-bottom: 22px; max-width: 680px;">
+        Lenders duplicate credit rules across an origination tool, a mobile app, and a partner
+        portal, and the copies drift. This backend centralizes the rule. The credit waterfall lives
+        in one function both the API and the seed path call, so every consumer runs identical rules.
+      </p>
+      <div class="cards">
+        <div class="card">
+          <h3>Versioned policy</h3>
+          <p>Each policy is a row. Exactly one is active. Every decision is pinned to the version
+            that produced it, so an old decision traces to the exact rule in force at the time.</p>
+        </div>
+        <div class="card">
+          <h3>Append-only audit trail</h3>
+          <p>Every event on an application lands in the log with the actor and the policy version.
+            Rows are never updated or deleted.</p>
+        </div>
+        <div class="card">
+          <h3>API-layer access control</h3>
+          <p>An underwriter may run and override decisions. A reviewer is read-only. The role is
+            checked in each endpoint, never with row-level security.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="api">
+      <h2>API surface</h2>
+      <table>
+        <thead>
+          <tr><th>Verb</th><th>Path</th><th>Enforces</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="verb">POST</td><td><code>auth/login</code></td><td>Public. Mints a bearer token.</td></tr>
+          <tr><td class="verb">GET</td><td><code>applications</code></td><td>Signed in. Applications with applicant and decision.</td></tr>
+          <tr><td class="verb">POST</td><td><code>applications/submit</code></td><td>Underwriter only. Computes debt-to-income, opens the application.</td></tr>
+          <tr><td class="verb">POST</td><td><code>decisions/run</code></td><td>Underwriter only. Runs the waterfall, pins the decision.</td></tr>
+          <tr><td class="verb">GET</td><td><code>decisions/{application_id}</code></td><td>Signed in. The outcome, the rule that fired, the version.</td></tr>
+          <tr><td class="verb">GET</td><td><code>audit/{applicant_id}</code></td><td>Signed in. The ordered event history for an applicant.</td></tr>
+          <tr><td class="verb">GET</td><td><code>rule-sets</code></td><td>Signed in. Every policy version, active one marked.</td></tr>
+          <tr><td class="verb">GET</td><td><code>seed</code></td><td>Public. Idempotent demo reset.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="wrap" id="screens">
+      <h2>Frontend screens</h2>
+      <ul class="screens">
+        <li><strong>Applications</strong><span>The book of applications with applicant, amount, and debt-to-income, plus a submit form.</span></li>
+        <li><strong>Decision</strong><span>The governed outcome, the risk tier, and the exact rule that fired, with its policy version.</span></li>
+        <li><strong>Audit trail</strong><span>The ordered event history for an applicant, each entry showing the actor and the version.</span></li>
+        <li><strong>Rule sets</strong><span>Every policy version in one readable place, the active one highlighted.</span></li>
+      </ul>
+    </section>
+
+    <section class="wrap" id="use">
+      <h2>Use this template</h2>
+      <p class="note" style="margin-bottom: 16px;">
+        Paste this to your coding agent to stand up your own live copy, then adapt it to your domain:
+      </p>
+      <pre>Use https://github.com/xano-scratch/credit-decisioning-rules-engine as a
+starting template. Clone it, run `npm install`, then `npx xanots login`
+and `npm run xano:deploy` to deploy your own live copy.
+
+The backend is authored with @xanots/sdk in xano/ and the frontend in
+frontend/. Read node_modules/@xanots/sdk/llms.txt first, then adapt the
+tables, the evaluate_application function, and the endpoints to your own
+domain, keeping the versioned-policy and audit-log patterns.</pre>
+      <p class="note" style="margin-top: 16px;">Or clone and deploy directly:</p>
+      <pre>git clone https://github.com/xano-scratch/credit-decisioning-rules-engine
+cd credit-decisioning-rules-engine
+npm install
+npx xanots login
+npm run xano:deploy</pre>
+    </section>
+
+    <section class="wrap" id="live">
+      <h2>About the live preview</h2>
+      <p class="note" style="max-width: 680px;">
+        Demo links are ephemeral. They expire, and each redeploy publishes a new address, so a link
+        from an earlier run stops serving. The durable artifact is this repository. Anyone can clone
+        it and run <code>npm run xano:deploy</code> for a fresh live copy in about a minute. The two
+        demo accounts ship as seed data, and the app seeds its demo book on first open.
+      </p>
+    </section>
+
+    <footer class="wrap">
+      Credit Decisioning Rules Engine · a XanoTS proof artifact · Play 1, Business Logic
+      Centralization · banking and financial services. An experimental scratch build, not a
+      production customer reference.
+    </footer>
+  </body>
+</html>

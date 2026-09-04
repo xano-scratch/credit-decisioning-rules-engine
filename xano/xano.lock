@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "objects": {
+    "app:credit": {
+      "guid": "a4328a6580586886ae10b52bd67f0988",
+      "canonical": "credit",
+      "canonical_source": "code"
+    },
+    "dbo:applicants": {
+      "guid": "e7b39d8ffe49c097c98b851c73e72941"
+    },
+    "dbo:applications": {
+      "guid": "6ee4e93583ac8e033dfa1d76c28eeec5"
+    },
+    "dbo:decision_log": {
+      "guid": "8020f8651b6aa0606f945085b0765f83"
+    },
+    "dbo:decisions": {
+      "guid": "2841cfb910d54157958cb9e1e304358c"
+    },
+    "dbo:rule_sets": {
+      "guid": "b0d054baf5ed8d02c15e627071ad1c0b"
+    },
+    "dbo:users": {
+      "guid": "157d4a98d979cf04b9ccdb98dfc15229"
+    },
+    "function:evaluate_application": {
+      "guid": "20a56a28d5ecd65778238408fcc59001"
+    },
+    "query:credit|GET|applications": {
+      "guid": "f68f0bd39792544475545badc2b6c985"
+    },
+    "query:credit|GET|audit/{applicant_id}": {
+      "guid": "5b53e08e9216b75049faddda5e2e87c7"
+    },
+    "query:credit|GET|decisions/{application_id}": {
+      "guid": "2348f5faf577cf6c939944e05d4df791"
+    },
+    "query:credit|GET|rule-sets": {
+      "guid": "b68d503b2da825a9f29735ac234ad3a2"
+    },
+    "query:credit|GET|seed": {
+      "guid": "a35d30d572e6c4a9a6099abcb8082956"
+    },
+    "query:credit|POST|applications/submit": {
+      "guid": "605af815801f3992906ee066d396ce9a"
+    },
+    "query:credit|POST|auth/login": {
+      "guid": "85ed729ad27808f433c6f27d53788392"
+    },
+    "query:credit|POST|decisions/run": {
+      "guid": "2747a105fb03b71b45a172bfc8128804"
+    }
+  }
+}
